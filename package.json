@@ -19,7 +19,9 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.118",
     "@neondatabase/serverless": "^1.2.0",
+    "ai": "^7.0.170",
     "better-auth": "^1.7.15",
     "dotenv": "^18.0.9",
     "drizzle-orm": "^1.0.0-rc.5",
