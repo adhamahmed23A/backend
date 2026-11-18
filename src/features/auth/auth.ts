@@ -18,8 +18,11 @@ const options: BetterAuthOptions = {
   },
   advanced: {
     useSecureCookies: true,
+
+    database: {
+      generateId: "uuid",
+    },
   },
   ...AuthConfigOptions,
 };
 export const auth = betterAuth(options);
-export type Auth = typeof auth;
