@@ -1,7 +1,7 @@
 import { betterAuth, BetterAuthOptions } from "better-auth/minimal";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../../db/client"; // your drizzle instance
-import { SessionData } from "./auth.constants";
+import { SessionData } from "./auth-constants";
 import { AuthConfigOptions } from "./auth-config";
 import * as schema from "../../db/schemas";
 import { env } from "../../config/env";
@@ -18,8 +18,11 @@ const options: BetterAuthOptions = {
   },
   advanced: {
     useSecureCookies: true,
+
+    database: {
+      generateId: "uuid",
+    },
   },
   ...AuthConfigOptions,
 };
 export const auth = betterAuth(options);
-export type Auth = typeof auth;

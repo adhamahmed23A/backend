@@ -1,15 +1,20 @@
 import express from "express";
 import { httpLogger } from "./shared/logger/http-logger";
-import { errorHandlerMiddleware } from "./shared/middlewares/error-handler.middleware";
+import { errorHandlerMiddleware } from "./shared/middlewares/error-handler-middleware";
 import { toNodeHandler } from "better-auth/node";
 import { auth } from "./features/auth/auth";
-
+import documentRouter from "./features/documents/document-router";
+import chatRouter from "./features/chat/chat-router";
+import { rateLimiter } from "./config/rate-limiter";
 export const createApp = () => {
   const app = express();
+  app.use(rateLimiter);
   app.use(httpLogger);
   app.all("/api/auth/*splat", toNodeHandler(auth));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use("/api/document", documentRouter);
+  app.use("/api/chat", chatRouter);
   app.use(errorHandlerMiddleware);
   return app;
 };

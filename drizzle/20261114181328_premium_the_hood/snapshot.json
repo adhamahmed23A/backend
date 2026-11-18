@@ -2,11 +2,28 @@
   "type": "base",
   "version": "9",
   "dialect": "postgres",
-  "id": "61221458-3a7d-4966-b692-7e349997d702",
+  "id": "1d5b4fb8-ae12-4247-93ed-7443df35073a",
   "prevIds": [
     "00000000-0000-0000-0000-000000000000"
   ],
   "footprints": [
+    {
+      "statementType": "create_enum",
+      "statementTarget": [
+        "enum",
+        "public",
+        "document_status"
+      ],
+      "writes": [
+        "s|enum|public.document_status",
+        "n|enum|public.document_status",
+        "e|enum|public.document_status",
+        "n|type|public.document_status"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
     {
       "statementType": "create_table",
       "statementTarget": [
@@ -86,6 +103,45 @@
       ]
     },
     {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "document"
+      ],
+      "writes": [
+        "s|tbl|public.document",
+        "n|tbl|public.document",
+        "e|tbl|public.document",
+        "n|rel|public.document",
+        "n|type|public.document",
+        "n|rel|public.document_pkey"
+      ],
+      "reads": [
+        "n|sch|public",
+        "n|enum|public.document_status"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "document_chunks"
+      ],
+      "writes": [
+        "s|tbl|public.document_chunks",
+        "n|tbl|public.document_chunks",
+        "e|tbl|public.document_chunks",
+        "n|rel|public.document_chunks",
+        "n|type|public.document_chunks",
+        "n|rel|public.document_chunks_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
       "statementType": "create_index",
       "statementTarget": [
         "index",
@@ -146,6 +202,86 @@
       ]
     },
     {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "document",
+        "document_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.document_id_idx",
+        "n|idx|public.document_id_idx",
+        "e|idx|public.document_id_idx",
+        "n|rel|public.document_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.document",
+        "n|sch|public",
+        "n|col|public.document.id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "document",
+        "document_user_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.document_user_id_idx",
+        "n|idx|public.document_user_id_idx",
+        "e|idx|public.document_user_id_idx",
+        "n|rel|public.document_user_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.document",
+        "n|sch|public",
+        "n|col|public.document.user_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "document_chunks",
+        "document_chunks_document_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.document_chunks_document_id_idx",
+        "n|idx|public.document_chunks_document_id_idx",
+        "e|idx|public.document_chunks_document_id_idx",
+        "n|rel|public.document_chunks_document_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.document_chunks",
+        "n|sch|public",
+        "n|col|public.document_chunks.document_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "document_chunks",
+        "document_chunks_embedding_idx"
+      ],
+      "writes": [
+        "s|idx|public.document_chunks_embedding_idx",
+        "n|idx|public.document_chunks_embedding_idx",
+        "e|idx|public.document_chunks_embedding_idx",
+        "n|rel|public.document_chunks_embedding_idx"
+      ],
+      "reads": [
+        "n|tbl|public.document_chunks",
+        "n|sch|public",
+        "n|col|public.document_chunks.embedding"
+      ]
+    },
+    {
       "statementType": "create_fk",
       "statementTarget": [
         "table",
@@ -190,6 +326,52 @@
         "n|col|public.user.id",
         "e|uniqueness|public.user.id"
       ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "document"
+      ],
+      "writes": [
+        "s|fk|public.document.document_user_id_user_id_fkey",
+        "n|fk|public.document.document_user_id_user_id_fkey",
+        "e|fk|public.document.document_user_id_user_id_fkey",
+        "n|con|public.document.document_user_id_user_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.document",
+        "n|sch|public",
+        "n|tbl|public.user",
+        "n|sch|public",
+        "n|col|public.document.user_id",
+        "n|col|public.user.id",
+        "e|uniqueness|public.user.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "document_chunks"
+      ],
+      "writes": [
+        "s|fk|public.document_chunks.document_chunks_document_id_document_id_fkey",
+        "n|fk|public.document_chunks.document_chunks_document_id_document_id_fkey",
+        "e|fk|public.document_chunks.document_chunks_document_id_document_id_fkey",
+        "n|con|public.document_chunks.document_chunks_document_id_document_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.document_chunks",
+        "n|sch|public",
+        "n|tbl|public.document",
+        "n|sch|public",
+        "n|col|public.document_chunks.document_id",
+        "n|col|public.document.id",
+        "e|uniqueness|public.document.id"
+      ]
     }
   ],
   "ddl": [
@@ -219,13 +401,36 @@
     },
     {
       "schema": "public",
+      "name": "document",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "document_chunks",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "document_status",
+      "values": [
+        "pending",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "entityType": "enums"
+    },
+    {
+      "schema": "public",
       "table": "account",
       "name": "id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "gen_random_uuid()",
       "generated": null,
       "identity": null,
       "entityType": "columns"
@@ -234,7 +439,7 @@
       "schema": "public",
       "table": "account",
       "name": "account_id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
@@ -260,7 +465,7 @@
       "schema": "public",
       "table": "account",
       "name": "user_id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
@@ -390,11 +595,11 @@
       "schema": "public",
       "table": "session",
       "name": "id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "gen_random_uuid()",
       "generated": null,
       "identity": null,
       "entityType": "columns"
@@ -481,7 +686,7 @@
       "schema": "public",
       "table": "session",
       "name": "user_id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
@@ -494,11 +699,11 @@
       "schema": "public",
       "table": "user",
       "name": "id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "gen_random_uuid()",
       "generated": null,
       "identity": null,
       "entityType": "columns"
@@ -585,11 +790,11 @@
       "schema": "public",
       "table": "verification",
       "name": "id",
-      "type": "text",
+      "type": "uuid",
       "typeSchema": null,
       "notNull": true,
       "dimensions": 0,
-      "default": null,
+      "default": "gen_random_uuid()",
       "generated": null,
       "identity": null,
       "entityType": "columns"
@@ -661,6 +866,188 @@
     },
     {
       "schema": "public",
+      "table": "document",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "file_name",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "storage_path",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "page_count",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "created_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "status",
+      "type": "document_status",
+      "typeSchema": "public",
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'pending'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "updated_at",
+      "type": "timestamp",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "document_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "chunk_index",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "content",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "page_number",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "embedding",
+      "type": "vector(768)",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
       "table": "account",
       "name": "account_userId_idx",
       "nameExplicit": true,
@@ -724,6 +1111,93 @@
     },
     {
       "schema": "public",
+      "table": "document",
+      "name": "document_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "document_user_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "document_chunks_document_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "document_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "document_chunks_embedding_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "embedding",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": {
+            "name": "vector_cosine_ops",
+            "default": false
+          }
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "hnsw",
+      "concurrently": false,
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
       "table": "account",
       "name": "account_user_id_user_id_fkey",
       "nameExplicit": false,
@@ -749,6 +1223,40 @@
       ],
       "schemaTo": "public",
       "tableTo": "user",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "document_user_id_user_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "user",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "document_chunks_document_id_document_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "document_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "document",
       "columnsTo": [
         "id"
       ],
@@ -790,6 +1298,26 @@
       "schema": "public",
       "table": "verification",
       "name": "verification_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "document",
+      "name": "document_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "document_chunks",
+      "name": "document_chunks_pkey",
       "columns": [
         "id"
       ],

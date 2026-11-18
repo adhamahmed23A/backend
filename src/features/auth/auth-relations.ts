@@ -1,5 +1,5 @@
 import { defineRelationsPart } from "drizzle-orm";
-import * as schema from "./auth-schema";
+import * as schema from "../../db/schemas";
 export const betterAuthRelations = defineRelationsPart(schema, (r) => ({
   user: {
     sessions: r.many.session({ from: r.user.id, to: r.session.userId }),
